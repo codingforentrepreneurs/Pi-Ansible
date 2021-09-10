@@ -1,0 +1,16 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Update Apt
+      apt:
+        upgrade: yes
+        update_cache: yes
+        cache_valid_time: 86400
+    - name: Pull Git Repo
+      git:
+        repo: "https://github.com/codingforentrepreneurs/iac-python"
+        dest: "/var/www/"
+        update: yes
+        version: main
+    
