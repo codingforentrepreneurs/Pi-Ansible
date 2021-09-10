@@ -1,0 +1,8 @@
+---
+- hosts: all
+  become: yes
+  vars_files: ../vars/main.yaml
+  tasks:
+    - name: Basic ENV DEBUG
+      debug:
+        msg: "{% if lookup('env', 'DEBUG') == '1' %}DEBUG{% else %}PROD{% endif %}"
