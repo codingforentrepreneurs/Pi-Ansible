@@ -2,5 +2,8 @@
 - name: Update apt for webapps
   import_playbook: ./playbooks/update_apt.yaml
 
+- name: Setup Load Balancer nginx
+  import_playbook: ./playbooks/nginx.yaml hostname=loadbalancer
+
 - name: Pull git repo
   import_playbook: ./playbooks/pull.yaml hostname=webapps
