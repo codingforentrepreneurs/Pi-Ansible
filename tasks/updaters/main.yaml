@@ -1,0 +1,2 @@
+- name: Update APT
+  import_playbook: ./update_apt.yaml
