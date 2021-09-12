@@ -1,7 +1,7 @@
 ---
 - hosts: all
   become: yes
-  vars_files: ../vars/main.yaml
+  vars_files: ../../vars/main.yaml
   tasks:
     - name: Run `dpkg --configure -a`
       become: true
@@ -31,6 +31,8 @@
       command: apt install -t buster-backports libseccomp2
     - name: Docker kill all other containers
       command: docker container kill $(docker ps -q)
+      ignore_errors: yes
     - name: Docker remove not running containers
       command: docker container rm $(docker ps -a -q)
+      ignore_errors: yes
     
