@@ -1,0 +1,36 @@
+---
+- hosts: all
+  become: yes
+  vars_files: ../vars/main.yaml
+  tasks:
+    - name: Run `dpkg --configure -a`
+      become: true
+      command: dpkg --configure -a
+    - name: Autoremove & purge unused packages
+      apt:
+        autoremove: yes
+        purge: yes
+    - name: Update apt
+      apt:
+        upgrade: yes
+        update_cache: yes
+        cache_valid_time: 86400
+    - name: Update dist
+      apt:
+        upgrade: dist
+    - name: Update key
+      command: "apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 04EE7237B7D453EC 648ACFD622F3D138"
+    - name: Update backports list
+      lineinfile:
+        path: /etc/apt/sources.list.d/buster-backports.list
+        line: 'deb http://deb.debian.org/debian buster-backports main'
+        create: yes
+    - name: Update apt
+      command: apt update
+    - name: Install buster backports
+      command: apt install -t buster-backports libseccomp2
+    - name: Docker kill all other containers
+      command: docker container kill $(docker ps -q)
+    - name: Docker remove not running containers
+      command: docker container rm $(docker ps -a -q)
+    

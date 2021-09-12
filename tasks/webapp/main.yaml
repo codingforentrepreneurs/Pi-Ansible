@@ -1,0 +1,2 @@
+- name: Pull git repo
+  import_playbook: ./pull_repo.yaml

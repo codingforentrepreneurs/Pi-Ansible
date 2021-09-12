@@ -1,0 +1,9 @@
+---
+- name: Import updaters tasks
+  import_playbook: ./tasks/updaters/main.yaml hostname=all
+
+- name: Import nginx tasks
+  import_playbook: ./tasks/nginx/main.yaml hostname=loadbalancer
+
+- name: Import webapp tasks
+  import_playbook: ./tasks/webapp/main.yaml hostname=webapps
