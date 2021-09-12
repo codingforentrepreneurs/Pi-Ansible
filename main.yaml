@@ -1,0 +1,8 @@
+---
+- name: Update apt
+  import_playbook: ./playbooks/update_apt.yaml
+
+
+- name: Pull git repo
+  import_playbook: ./playbooks/pull.yaml
+    
