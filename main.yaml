@@ -1,8 +1,6 @@
 ---
-- name: Update apt
+- name: Update apt for webapps
   import_playbook: ./playbooks/update_apt.yaml
 
-
 - name: Pull git repo
-  import_playbook: ./playbooks/pull.yaml
-    
+  import_playbook: ./playbooks/pull.yaml hostname=webapps
