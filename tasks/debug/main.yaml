@@ -6,3 +6,6 @@
     - name: Basic ENV DEBUG
       debug:
         msg: "{% if lookup('env', 'DEBUG') == '1' %}DEBUG{% else %}PROD{% endif %}"
+    - name: Built In vars
+      debug:
+        msg: "{{ inventory_hostname }} {{ groups['webapps'] }}"

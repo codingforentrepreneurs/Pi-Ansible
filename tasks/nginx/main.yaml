@@ -7,3 +7,19 @@
   tasks:
     - name: Install Nginx
       apt: name=nginx state=present update_cache=yes
+    - name: Copy Nginx Config
+      template:
+        src: ../../templates/nginx.conf.j2
+        dest: /etc/nginx/sites-available/default
+      notify: restart nginx
+    - name: Enable New Config
+      file:
+        src: /etc/nginx/sites-available/default
+        dest: /etc/nginx/sites-enabled/default
+        state: link
+      notify: restart nginx
+  handlers:
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
