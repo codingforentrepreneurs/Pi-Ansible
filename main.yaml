@@ -7,3 +7,6 @@
 
 - name: Import webapp tasks
   import_playbook: ./tasks/webapp/main.yaml hostname=webapps
+
+- name: Build & Run Docker Webapp Tasks
+  import_playbook: ./tasks/docker/main.yaml
