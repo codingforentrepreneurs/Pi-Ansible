@@ -6,4 +6,4 @@
     - name: Docker Stop & Run Containers
       shell: |
         docker stop $(docker ps -aq) && \
-        docker run -d -e PORT=8001 -p 80:8001 webapp
+        docker run --restart always -d -e PORT=8001 -p 80:8001 webapp

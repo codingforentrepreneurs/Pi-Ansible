@@ -7,6 +7,7 @@
   tasks:
     - name: Install Nginx
       apt: name=nginx state=present update_cache=yes
+      notify: start nginx
     - name: Copy Nginx Config
       template:
         src: ../../templates/nginx.conf.j2
@@ -19,6 +20,10 @@
         state: link
       notify: restart nginx
   handlers:
+    - name: start nginx
+      service:
+        name: nginx
+        state: started
     - name: restart nginx
       service:
         name: nginx
