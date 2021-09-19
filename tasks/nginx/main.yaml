@@ -3,28 +3,18 @@
   become: yes
   vars_files: "../../vars/main.yaml"
   vars:
-    hostname: "all"
+    hostname: "loadbalancer"
   tasks:
-    - name: Install Nginx
-      apt: name=nginx state=present update_cache=yes
-      notify: start nginx
     - name: Copy Nginx Config
       template:
         src: ../../templates/nginx.conf.j2
-        dest: /etc/nginx/sites-available/default
-      notify: restart nginx
-    - name: Enable New Config
-      file:
-        src: /etc/nginx/sites-available/default
-        dest: /etc/nginx/sites-enabled/default
-        state: link
-      notify: restart nginx
-  handlers:
-    - name: start nginx
-      service:
-        name: nginx
-        state: started
-    - name: restart nginx
-      service:
-        name: nginx
-        state: restarted
+        dest: "/home/{{ my_user }}/nginx.conf"
+    - name: Docker Stop & Remove Containers
+      shell: |
+        docker stop $(docker ps -aq) && \
+        docker rm $(docker ps -aq) && \
+        docker image rm $(docker image ls -aq)
+      ignore_errors: yes
+    - name: Docker Start nginx Load Balancer
+      shell: |
+        docker run --restart always -d -p 80:80 -v /home/{{ my_user }}/nginx.conf:/etc/nginx/conf.d/default.conf:ro nginx

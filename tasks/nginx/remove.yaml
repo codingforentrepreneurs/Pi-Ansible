@@ -1,0 +1,16 @@
+---
+- hosts: "{{ hostname }}"
+  become: yes
+  vars_files: "../../vars/main.yaml"
+  vars:
+    hostname: "all"
+  tasks:
+    - name: stop nginx
+      service:
+        name: nginx
+        state: stopped
+    - name: remove nginx
+      apt:
+        name: nginx
+        state: absent
+        purge: yes
